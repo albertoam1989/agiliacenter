@@ -1,5 +1,5 @@
 //================= CONSOLE.LOG EN LOS CRUM =====================
-let crum = (req, res, next) => {
+let crud = (req, res, next) => {
     let metodo = req.method;
     if (!metodo) {
         return res.status(500).json({
@@ -7,19 +7,21 @@ let crum = (req, res, next) => {
             err: { message: "Error interno del servidor" }
         });
     }
-    //console.log(req.route.path);
+
+    let ruta = req.route.path.split("/");
+
     switch (metodo) {
         case 'GET':
-            console.log('Haciendo SELECT en la tabla ' + req.route.path);
+            console.log('Haciendo SELECT en la tabla ' + ruta[1]);
             break;
         case 'POST':
-            console.log('Haciendo INSERT en la tabla ' + req.route.path);
+            console.log('Haciendo INSERT en la tabla ' + ruta[1]);
             break;
         case 'PUT':
-            console.log('Haciendo UPDATE en la tabla ' + req.route.path);
+            console.log('Haciendo UPDATE en la tabla ' + ruta[1]);
             break;
         case 'DELETE':
-            console.log('Haciendo DELETE en la tabla ' + req.route.path);
+            console.log('Haciendo DELETE en la tabla ' + ruta[1]);
             break;
     }
     next();
@@ -28,5 +30,5 @@ let crum = (req, res, next) => {
 
 
 module.exports = {
-    crum
+    crud
 }

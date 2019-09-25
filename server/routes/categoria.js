@@ -16,7 +16,7 @@ let Categoria = require('../models/categoria');
 
 //=========== MOSTRAR TODAS LAS CATEGORIAS ==============================
 app.get('/categoria', [verificaToken, crud], (req, res) => {
-
+    req.tabla_consulta = "categoria";
     Categoria.find({})
         .sort('descripcion')
         .populate('usuario', 'nombre email')
@@ -37,7 +37,8 @@ app.get('/categoria', [verificaToken, crud], (req, res) => {
 
 
 //=========== MOSTRAR CATEGORIA POR ID ==================================
-app.get('/categoria/:id', [verificaToken, crum], (req, res) => {
+app.get('/categoria/:id', [verificaToken, crud], (req, res) => {
+    req.tabla_consulta = "categoria";
     let id = req.params.id;
     let body = res.body;
 
@@ -59,7 +60,7 @@ app.get('/categoria/:id', [verificaToken, crum], (req, res) => {
 
 
 //=========== CREO METODO PARA NUEVA CATEGORIA =====================================
-app.post('/categoria', [verificaToken, crum], (req, res) => {
+app.post('/categoria', [verificaToken, crud], (req, res) => {
     //let id = req.param.id;
     let body = req.body;
     let id_usuario = req.usuario._id;
@@ -88,7 +89,7 @@ app.post('/categoria', [verificaToken, crum], (req, res) => {
 
 
 //=========== CREO METODO PARA ACTUALIZAR CATEGORIA =======================================
-app.put('/categoria/:id', [verificaToken, crum], (req, res) => {
+app.put('/categoria/:id', [verificaToken, crud], (req, res) => {
     let id = req.params.id
     let body = _.pick(req.body, ['usuario', 'descripcion']);
 
@@ -112,7 +113,7 @@ app.put('/categoria/:id', [verificaToken, crum], (req, res) => {
 
 
 //=========== CREO METODO PARA BORRAR CATEGORIA ==========================================
-app.delete('/categoria/:id', [verificaToken, verificaAdmin_Role, crum], (req, res) => {
+app.delete('/categoria/:id', [verificaToken, verificaAdmin_Role, crud], (req, res) => {
     let id = req.params.id;
 
     Categoria.findByIdAndDelete(id, (err, categoriaBorrada) => {

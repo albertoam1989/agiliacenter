@@ -5,7 +5,7 @@ const app = express();
 // ========================= importo libreria de encriptación ======================
 const bcrypt = require('bcrypt');
 
-// ========================= importo librerias varias ======================
+// ========================= importo libreria varias ======================
 const _ = require('underscore');
 const Usuario = require('../models/usuario');
 
@@ -13,8 +13,11 @@ const Usuario = require('../models/usuario');
 const { verificaToken, verificaAdmin_Role } = require('../middlewares/autentificacion');
 const { crud } = require('../middlewares/crud');
 
+
 // ========================= Creo la clase para visualizar usuarios ======================
 app.get('/usuario', [verificaToken, crud], (req, res) => {
+
+    req.tabla_consulta = "usuario";
 
     let desde = req.query.desde || 0;
     desde = Number(desde);
@@ -33,8 +36,7 @@ app.get('/usuario', [verificaToken, crud], (req, res) => {
                     err
                 })
             }
-            //req.accion = 'visualizo usuarios';
-            //app.use(crum);
+
             Usuario.countDocuments({ estado: true }, (err, conteo) => {
                 res.json({
                     ok: true,
@@ -46,11 +48,12 @@ app.get('/usuario', [verificaToken, crud], (req, res) => {
 })
 
 // ========================= Creo la clase para crear usuario ======================
-app.post('/usuario', [verificaToken, verificaAdmin_Role, crum], function(req, res) {
+app.post('/usuario', [verificaToken, verificaAdmin_Role, crud], function(req, res) {
     let body = req.body;
-    // bcrypt.hashSync() es para encriptar la contraseña
+
     let usuario = new Usuario({
         nombre: body.nombre,
+        img: body.img,
         email: body.email,
         password: bcrypt.hashSync(body.password, 10),
         role: body.role
@@ -71,9 +74,8 @@ app.post('/usuario', [verificaToken, verificaAdmin_Role, crum], function(req, re
 })
 
 // ========================= creo el método para actualizar un campo de la tabla usuario ======================
-app.put('/usuario/:id', [verificaToken, verificaAdmin_Role, crum], function(req, res) {
+app.put('/usuario/:id', [verificaToken, verificaAdmin_Role, crud], function(req, res) {
     let id = req.params.id
-        // uso la libreria underscore para limitar los campos que se pueden editar
     let body = _.pick(req.body, ['nombre', 'email', 'img', 'role', 'estado']);
 
     Usuario.findByIdAndUpdate(id, body, { new: true, runValidators: true }, (err, usuarioDB) => {
@@ -95,7 +97,7 @@ app.put('/usuario/:id', [verificaToken, verificaAdmin_Role, crum], function(req,
 // ============ Creo el método para cambiar el estado a false ======================================================
 //====================== Tambien se puede crear el método para eliminar directamente de la bbdd
 ///===================== pero para guardar la integridad referencial de los datos prefiero hacerlo por este método de desactivar 
-app.delete('/usuario/:id', [verificaToken, verificaAdmin_Role, crum], function(req, res) {
+app.delete('/usuario/:id', [verificaToken, verificaAdmin_Role, crud], function(req, res) {
 
     let id = req.params.id;
 
