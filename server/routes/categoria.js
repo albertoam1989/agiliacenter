@@ -5,7 +5,7 @@ const app = express();
 
 // ========================= Importo middlewares ======================
 const { verificaToken, verificaAdmin_Role } = require('../middlewares/autentificacion');
-const { crum } = require('../middlewares/crum');
+const { crud } = require('../middlewares/crud');
 
 // ========================= importo librerias varias ======================
 const _ = require('underscore');
@@ -15,7 +15,7 @@ let Categoria = require('../models/categoria');
 
 
 //=========== MOSTRAR TODAS LAS CATEGORIAS ==============================
-app.get('/categoria', [verificaToken, crum], (req, res) => {
+app.get('/categoria', [verificaToken, crud], (req, res) => {
 
     Categoria.find({})
         .sort('descripcion')

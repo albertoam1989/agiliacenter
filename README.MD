@@ -10,7 +10,7 @@ NPM INSTALL
 
 Hay que instalar todos los paquetes para su correcto funcionamiento:
 
-RElacion de los paquetes funcionando a la ultima actualizacion
+Relacion de los paquetes funcionando a la ultima actualizacion
 "bcrypt": "^3.0.6",
 "body-parser": "^1.19.0",
 "express": "^4.17.1",

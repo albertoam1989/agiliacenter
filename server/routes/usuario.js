@@ -11,10 +11,10 @@ const Usuario = require('../models/usuario');
 
 // ========================= Importo middlewares ======================
 const { verificaToken, verificaAdmin_Role } = require('../middlewares/autentificacion');
-const { crum } = require('../middlewares/crum');
+const { crud } = require('../middlewares/crud');
 
 // ========================= Creo la clase para visualizar usuarios ======================
-app.get('/usuario', [verificaToken, crum], (req, res) => {
+app.get('/usuario', [verificaToken, crud], (req, res) => {
 
     let desde = req.query.desde || 0;
     desde = Number(desde);

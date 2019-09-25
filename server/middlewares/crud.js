@@ -7,7 +7,7 @@ let crum = (req, res, next) => {
             err: { message: "Error interno del servidor" }
         });
     }
-    console.log(req.route.path);
+    //console.log(req.route.path);
     switch (metodo) {
         case 'GET':
             console.log('Haciendo SELECT en la tabla ' + req.route.path);
